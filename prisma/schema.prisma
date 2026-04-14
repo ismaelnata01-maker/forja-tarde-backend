@@ -11,3 +11,12 @@ generator client {
 datasource db {
   provider = "sqlite"
 }
+
+model Alunos {
+  id Int @id @unique @default(autoincrement())//default serve para colocar um valor inicial e o @ serve para identificar como chave primária
+  nome String //só de criar já é obrigatório mas se for para ser opcional coloca após declarar o símbolo "?"
+  idade Int
+  cpf String @unique //será string pois tem cpf q começa com 0 e o sistema iria tirar o 0, mas como string ele não tira
+  genero String?
+  email String @unique
+}
