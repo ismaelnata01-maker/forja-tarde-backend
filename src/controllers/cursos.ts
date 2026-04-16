@@ -6,22 +6,20 @@ import { handleErrors } from "../helpers/handleErrors";
 export default({
     create: async(request: Request, response: Response) => {
         try{
-        const {nome, idade, cpf, genero, email} = request.body;
+        const {nome, descricao, duracao} = request.body;
 
-        if(!nome || !idade || !cpf || !email){
+        if(!nome || !descricao || !duracao){
             return response.status(400).json("Dados incompletos");
         }
 
-        const aluno = await prisma.alunos.create({
+        const curso = await prisma.cursos.create({
             data: {
                 nome,
-                idade,
-                cpf,
-                email,
-                genero
+                descricao,
+                duracao,
             }
         });
-        return response.status(201).json(aluno);//201= quando cria e dá certo e 200= sucesso já 400= erro
+        return response.status(201).json(curso);//201= quando cria e dá certo e 200= sucesso já 400= erro
     }//cria dados de um aluno, post
 
     catch(e){
@@ -30,8 +28,8 @@ export default({
     },
     list: async(request: Request, response: Response) => {
         try{
-            const alunos = await prisma.alunos.findMany();
-            return response.status(200).json(alunos);
+            const cursos = await prisma.cursos.findMany();
+            return response.status(200).json(cursos);
         }catch (e){
             return handleErrors(e, response);
         }
@@ -40,17 +38,17 @@ export default({
         try{
             const{ id } = request.params;
 
-            const aluno = await prisma.alunos.findUnique({
+            const curso = await prisma.cursos.findUnique({
                 where: {
                     id: Number(id) // ou +id
                 }
             });
 
-            if(!aluno){
-                return response.status(404).json("Aluno não encontrado");
+            if(!curso){
+                return response.status(404).json("Cursos não encontrado");
             }
 
-            return response.status(200).json(aluno);
+            return response.status(200).json(curso);
         }catch(e){
             return handleErrors(e, response);
         }
@@ -58,21 +56,19 @@ export default({
     update: async(request: Request, response: Response) => {
         try{
             const { id } = request.params;
-            const {nome, idade, cpf, genero, email} = request.body;
+            const {nome, descricao, duracao} = request.body;
 
-            const aluno = await prisma.alunos.update({
+            const curso = await prisma.cursos.update({
                 where: {
                     id: Number(id)
                 },
                 data: {
                     nome,
-                    idade,
-                    cpf,
-                    email,
-                    genero,
+                    descricao,
+                    duracao,
                 },
             });
-            return response.status(200).json(aluno);
+            return response.status(200).json(curso);
         }catch(e){
             return handleErrors(e, response);
         }
@@ -81,12 +77,12 @@ export default({
         try{
             const { id } = request.params;
 
-            const aluno = await prisma.alunos.delete({
+            const curso = await prisma.cursos.delete({
                 where: {
                     id: Number(id),
                 }
             })
-            return response.status(200).json(aluno);
+            return response.status(200).json(curso);
         }catch(e){
             return handleErrors(e, response);
         }
