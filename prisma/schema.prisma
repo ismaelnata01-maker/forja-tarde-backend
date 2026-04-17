@@ -19,6 +19,7 @@ model Alunos {
   cpf String @unique //será string pois tem cpf q começa com 0 e o sistema iria tirar o 0, mas como string ele não tira
   genero String?
   email String @unique
+  cursos  Cursos[]
 }
 
 model Cursos{
@@ -26,4 +27,5 @@ model Cursos{
   nome String @unique
   descricao String
   duracao Int
+  alunos  Alunos[]
 }
